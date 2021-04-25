@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./css/index.css">
+    <title>Document</title>
+</head>
+<body>
+    <span style="font-size: 1.3rem; padding: 20px 30px; display:block">
+        <a href="/" style="color:white; text-decoration:none;">
+            <i class="fas fa-angle-left"></i>
+            Back
+        </a>
+    </span>
+    <div style="height: 65vh; display: flex; flex-direction: column; justify-content:space-between">
+        <h1 style="text-align: center; margin-top: 30px">Your person detail</h1>
+    <div class="setting-detail">
+        <span>Hi</span>
+        <label for="file">        <img id="avt" src="" alt="">
+        </label>
+
+    </div>
+    <input style="margin: 0 auto;" type="button" class="button" value="Upload" id="but_upload">
+
+    <form action="/profile" method="post" enctype="multipart/form-data">
+
+    <input type="file" id="file" name="avatar" hidden  />
+    </form>
+<div>
+    <input class="setting-input" id="username" type="text">
+    <!-- <input class="setting-input" id="username" type="text"> -->
+    <input class="setting-input" id="password" type="password"> 
+</div>
+    </div>
+    <div class="setting-bottom">
+        <span class="button logout">
+            Logout
+        </span>
+        <span class="button update">
+            Save
+        </span>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/getHeaderInfo.js"></script>
+<script>
+$('#file').change(() => {
+    var file = document.getElementById('file').files[0];
+    const reader = new FileReader();
+
+reader.addEventListener("load", function () {
+    $('#avt').attr("src", reader.result)
+}, false);
+
+if (file) {
+  reader.readAsDataURL(file);
+}
+
+})
+
+
+
+    $('.logout').click(() => {
+        localStorage.setItem('IsLogin', "false")
+        localStorage.setItem('avatar', "")
+        window.location.href = "/register.html"
+    })
+    $.post("http://localhost:8080/info", {id: localStorage.getItem("uId")} ,(data) => {
+        $('#username').val(data.userName)
+        $('#password').val(data.password)
+        $('#avt').attr("src", localStorage.getItem("avatar"))
+
+    });
+    
+    $('.update').click(() => {
+        if($('#username').val() == ""){
+            alert("Please enter username");
+            return 
+        }
+        if($('#password').val() == ""){
+            alert("Please enter password");
+            return 
+        }
+        if($('#password').val().length <= 6){
+            alert("Password required min 6 characters");
+            return 
+        }
+        $.post("http://localhost:8080/update", {_id: localStorage.getItem("uId"), userName:  $('#username').val(), password: $('#password').val()} ,(data) => {
+            alert("Upload success");
+    });
+    })
+
+    $("#but_upload").click(function(){
+
+var fd = new FormData();
+var files = $('#file')[0].files;
+
+// Check file selected or not
+if(files.length > 0 ){
+   fd.append('avatar',files[0]);
+   fd.append('_id', localStorage.getItem('uId'));
+
+   $.ajax({
+      url: 'http://localhost:8080/upload',
+      type: 'post',
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function(response){
+        localStorage.setItem('avatar', response.user.avatar)
+        $('#avt').attr("src", localStorage.getItem("avatar"))
+        alert("Upload success!");
+
+      },
+   });
+}else{
+   alert("Please select a file.");
+}
+})
+</script>
+</html>
