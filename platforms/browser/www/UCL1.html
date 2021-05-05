@@ -58,7 +58,7 @@
            <div class="nav-item"><a href="/">News </a></div>
            <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
            <div class="nav-item"><a href="/score.html">Score </a></div>
-           <div class="nav-item"><a href="/UCL.html">UCL </a></div>
+           <div class="nav-item btnActive"><a href="/UCL.html">UCL </a></div>
    
        </div>
    </div>
@@ -70,7 +70,7 @@
 
 <script>
        $.ajax({
-        url: "http://localhost:8080/score",
+        url: "http://localhost:8080/getAllUcl",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {

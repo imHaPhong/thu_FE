@@ -16,23 +16,24 @@
         </a>
     </span>
     <div style="height: 65vh; display: flex; flex-direction: column; justify-content:space-between">
-        <h1 style="text-align: center; margin-top: 30px">Your person detail</h1>
+        <h1 style="text-align: center; margin-top: 30px">Your Infomation</h1>
     <div class="setting-detail">
         <span>Hi</span>
         <label for="file">        <img id="avt" src="" alt="">
         </label>
 
     </div>
-    <input style="margin: 0 auto;" type="button" class="button" value="Upload" id="but_upload">
+    <input style="margin: 0 auto;" type="button" class="button" value="Upload" id="but_upload" style="background: transparent;">
 
     <form action="/profile" method="post" enctype="multipart/form-data">
 
     <input type="file" id="file" name="avatar" hidden  />
     </form>
 <div>
-    <input class="setting-input" id="username" type="text">
     <!-- <input class="setting-input" id="username" type="text"> -->
-    <input class="setting-input" id="password" type="password"> 
+    <span class="change_pass">Change password</span>
+    <input class="setting-input" id="password" type="password" placeholder="Current password"> 
+    <input class="setting-input" id="repeatPassword" type="password" placeholder="New password"> 
 </div>
     </div>
     <div class="setting-bottom">
@@ -61,7 +62,8 @@ if (file) {
 
 })
 
-
+var password = ""
+var username = ""
 
     $('.logout').click(() => {
         localStorage.setItem('IsLogin', "false")
@@ -69,26 +71,28 @@ if (file) {
         window.location.href = "/register.html"
     })
     $.post("http://localhost:8080/info", {id: localStorage.getItem("uId")} ,(data) => {
-        $('#username').val(data.userName)
-        $('#password').val(data.password)
+        password = data.password
+        username = data.username
         $('#avt').attr("src", localStorage.getItem("avatar"))
 
     });
     
     $('.update').click(() => {
-        if($('#username').val() == ""){
-            alert("Please enter username");
+    
+        if($('#password').val() != password){
+            alert("Current password not correct");
             return 
         }
-        if($('#password').val() == ""){
-            alert("Please enter password");
-            return 
-        }
-        if($('#password').val().length <= 6){
+
+        if($('#repeatPassword').val().length <= 6){
             alert("Password required min 6 characters");
             return 
         }
-        $.post("http://localhost:8080/update", {_id: localStorage.getItem("uId"), userName:  $('#username').val(), password: $('#password').val()} ,(data) => {
+        if(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test($('#repeatPassword').val()) == false) {
+            alert("Password invalid");
+            return 
+        }
+        $.post("http://localhost:8080/update", {_id: localStorage.getItem("uId"), userName: username, password: $('#repeatPassword').val()} ,(data) => {
             alert("Upload success");
     });
     })
