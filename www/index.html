@@ -71,11 +71,10 @@
    </div>
    <div class="footer">
        <div class="nav-list">
-           <div class="nav-item"><a href="/">News </a></div>
-           <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
-           <div class="nav-item"><a href="/score.html">Score </a></div>
-           <div class="nav-item"><a href="/UCL.html">UCL </a></div>
-   
+        <div class="nav-item"><a href="/">News </a></div>
+        <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
+        <div class="nav-item"><a href="/score.html">Score </a></div>
+        <div class="nav-item"><a href="/UCL.html">UCL </a></div>
        </div>
    </div>
  </div>
@@ -130,7 +129,7 @@
             </iframe>
             <div class="postDes">${el.title}</div>
             <div class="post-bottom">
-                <i class="fas fa-thumbs-up"></i>
+                <i class="fas fa-thumbs-up" id='${el._id}' onclick=like('${el._id}')></i>
                 <i class="fas fa-comments" onclick="openCmt('${el._id}')"></i>                </div>
             `)
         })
@@ -158,6 +157,15 @@
                 </div>`)
        })
     });
+   }
+   function like (id) {
+    if( $(`#${id}`).css("color") == "rgb(255, 94, 0)") {
+        $(`#${id}`).css("color", "white");
+
+    } else {
+        $(`#${id}`).css("color", "rgb(255, 94, 0)");
+
+    }
    }
 </script>
 

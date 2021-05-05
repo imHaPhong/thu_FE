@@ -54,10 +54,10 @@
         window.location.href = "/"
     }
     $('.login').click(() => {
-        if($(".userInput").val() == "admin" && $(".passwordInput").val() == "Amin99"){
+        if($(".userInput").val() == "admin" && $(".passwordInput").val() == "Admin99"){
             localStorage.setItem("IsLogin", "true")
 
-            window.location.href = "/admin.html"
+            window.location.href = "/admin/admin.html"
             return
         }
         if( $(".userInput").val().length == 0 ||  $(".passwordInput").val().length == 0 ){
@@ -76,6 +76,7 @@
             function(data){
                 if(data.isLogin) {
                      alert("Login success");
+                    //  console.log(data);
                     localStorage.setItem("IsLogin", "true")
                     localStorage.setItem("uId", data.uId)
                     localStorage.setItem("avatar", data.avatar)
@@ -111,7 +112,7 @@
                 }
                 alert("Create success")
                    localStorage.setItem("IsLogin", "true")
-                    localStorage.setItem("uId", data.user.uId)
+                    localStorage.setItem("uId", data.user._id)
                     localStorage.setItem("avatar", data.user.avatar)
                 window.location.href = "/index.html"
             });

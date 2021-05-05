@@ -52,13 +52,20 @@ html{
 }
 .nav-list{
     display:flex;
+    align-items: stretch;
 }
 .nav-item{
     flex: 1;
-    height:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px 10px;
     text-align: center;
     border: 1px solid #333;
+}
+
+.admin {
+    justify-content: space-between;
 }
 
 .nav-item a {
@@ -396,6 +403,21 @@ border: none;
     height:100%;
 }
 
+.comments {
+    height:85vh;
+    overflow: scroll;
+}
+
+.comment-input{
+    display: flex;
+    align-items: center;
+}
+
+.comment-info{
+    display: flex;
+    align-items: center;
+}
+
 .comments .comment-input{
     border-bottom: 1px solid white;
 }
@@ -452,4 +474,7 @@ border: none;
     margin: 0 auto;
     margin-bottom: 20px;
 
+}
+.likeActive{
+    color: tomato;
 }

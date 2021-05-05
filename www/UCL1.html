@@ -6,13 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="./css/index.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
-<style>
-   
-</style>
 
 <body>
  <div class="container">
@@ -45,29 +43,15 @@
        </div>
       </div>
    <div class="select-list">
+<!--        
+       <div class="select-item active" id="607eeb914a19ed101421ec17">ENG</div>
+       <div class="select-item">ENG</div>
+       <div class="select-item">ENG</div>
+       <div class="select-item">ENG</div> -->
    </div>
   </div>
-  <div class="modal2-container">
-    <div class="modal2">
-        <div class="modal-header">
-            <i class="fas fa-times" class="close-cmt" onclick="closeCmt()"></i>
-        </div>
-        <div class="modal-comment-list">
-            <div class="comments">
-              
-            </div>
-            <div class="comment-input">
-                <img width="50px" height="50px" style="border-radius: 50%;"  id="userCommentAvt" src='http://localhost:8080/img/1619337396365-f.png' alt="">
-                <input type="text" class="commentValue">
-                <input style="width:50px;" type="submit" value="Add" class="userComment"/>
-            </div>
-        </div>
-    </div>
-  </div>
    <div class="content">
-        <div class="post">
-           
-        </div>
+      
    </div>
    <div class="footer">
        <div class="nav-list">
@@ -85,89 +69,41 @@
 <script src="./js/isActive.js"></script>
 
 <script>
-    $('#userCommentAvt').attr('src', localStorage.getItem('avatar'))
-    var postId;
-         $('.userComment').click(function(){
-            $.post( "http://localhost:8080/userAddcomment", { pid: postId, uId: localStorage.getItem('uId'), comment: $('.commentValue').val()}, (data) => {
-                $('.comments').empty()
-                $('.commentValue').val("")
-                $.ajax({
-        url: "http://localhost:8080/userGetAllComment/"+ postId,
+       $.ajax({
+        url: "http://localhost:8080/score",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {
        console.log(response);
-       response.comment.map(el => {
-           $('.comments').append(`
-           <div class="comment-input">
-                    <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
-                    <div>
-                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
-
-                        <div style="fontsize:1.5rem">${el.comment}</div>
-                        </div>
-                </div>`)
-       })
-    });
-            } );
-
-
-         })
-
-        function closeCmt(){
-            $('.modal2-container').toggle()
-
-        }
-       $.ajax({
-        url: "http://localhost:8080/tranfer",
-        dataType: 'json',
-        type: 'GET',
-    }).done(function (response) {
-       
         response.map(el => {
-            $(".post").append(`<iframe height="200" frameborder="0" allowfullscreen
-            src="${el.link}">
-            </iframe>
-            <div class="postDes">${el.title}</div>
-            <div class="post-bottom">
-                <i class="fas fa-thumbs-up" id='${el._id}' onclick=like('${el._id}')></i>
-                <i class="fas fa-comments" onclick="openCmt('${el._id}')"></i>                </div>
-            `)
+            $(".content").append(` <div class="score-container">
+           <div class="score-left">
+                <div class="score-team">
+                    <div class="score-team-detail">
+                        <img src="${el.guest.avatar}" alt="">
+                    <span>${el.guest.clubName}</span>
+                    </div>
+                    <span class="score-team-goal">
+                        ${el.score[0]}
+                    </span>
+                </div>
+                <div class="score-team">
+                    <div class="score-team-detail">
+                        <img src="${el.home.avatar}" alt="">
+                    <span>${el.home.clubName}</span>
+                    </div>
+                    <span class="score-team-goal">
+                        ${el.score[1]}
+                    </span>
+                </div>
+           </div>
+           <div class="score-right">
+            ${(new Date(el.date)).toLocaleDateString()}
+           </div>
+       </div>`)
         })
     });
-
-
-   function openCmt(id){
-    postId = id
-       $('.modal2-container').toggle()
-       $.ajax({
-        url: "http://localhost:8080/userGetAllComment/"+ id,
-        dataType: 'json',
-        type: 'GET',
-    }).done(function (response) {
-       console.log(response);
-       response.comment.map(el => {
-           $('.comments').append(`
-           <div class="comment-input">
-                    <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
-                    <div>
-                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
-
-                        <div style="fontsize:1.5rem">${el.comment}</div>
-                        </div>
-                </div>`)
-       })
-    });
-   }
-   function like (id) {
-    if( $(`#${id}`).css("color") == "rgb(255, 94, 0)") {
-        $(`#${id}`).css("color", "white");
-
-    } else {
-        $(`#${id}`).css("color", "rgb(255, 94, 0)");
-
-    }
-   }
+   
 </script>
 
 </html>

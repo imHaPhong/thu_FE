@@ -52,13 +52,20 @@ html{
 }
 .nav-list{
     display:flex;
+    align-items: stretch;
 }
 .nav-item{
     flex: 1;
-    height:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px 10px;
     text-align: center;
     border: 1px solid #333;
+}
+
+.admin {
+    justify-content: space-between;
 }
 
 .nav-item a {
@@ -403,7 +410,6 @@ border: none;
 
 .comment-input{
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 

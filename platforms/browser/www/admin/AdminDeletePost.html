@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="../css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
@@ -56,11 +56,7 @@
             <div class="comments">
               
             </div>
-            <div class="comment-input">
-                <img width="50px" height="50px" style="border-radius: 50%;"  id="userCommentAvt" src='http://localhost:8080/img/1619337396365-f.png' alt="">
-                <input type="text" class="commentValue">
-                <input style="width:50px;" type="submit" value="Add" class="userComment"/>
-            </div>
+           
         </div>
     </div>
   </div>
@@ -71,11 +67,10 @@
    </div>
    <div class="footer">
        <div class="nav-list">
-           <div class="nav-item"><a href="/">News </a></div>
-           <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
-           <div class="nav-item"><a href="/score.html">Score </a></div>
-           <div class="nav-item"><a href="/UCL.html">UCL </a></div>
-   
+        <div class="nav-item"><a href="/admin/news.html">News </a></div>
+        <div class="nav-item"><a href="/admin/tranfers.html">Tranfer </a></div>
+           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> News comments </a></div>
+           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> Tranfer comments </a></div>
        </div>
    </div>
  </div>
@@ -99,13 +94,9 @@
        console.log(response);
        response.comment.map(el => {
            $('.comments').append(`
-           <div class="comment-input">
+           <div class="comment-input admin">
                     <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
-                    <div>
-                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
-
-                        <div style="fontsize:1.5rem">${el.comment}</div>
-                        </div>
+                    <span>${el.comment}</span>
                 </div>`)
        })
     });
@@ -119,7 +110,7 @@
 
         }
        $.ajax({
-        url: "http://localhost:8080/tranfer",
+        url: "http://localhost:8080/ucl",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {
@@ -130,7 +121,7 @@
             </iframe>
             <div class="postDes">${el.title}</div>
             <div class="post-bottom">
-                <i class="fas fa-thumbs-up" id='${el._id}' onclick=like('${el._id}')></i>
+                <i class="fas fa-thumbs-up"></i>
                 <i class="fas fa-comments" onclick="openCmt('${el._id}')"></i>                </div>
             `)
         })
@@ -145,28 +136,52 @@
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {
-       console.log(response);
+       var pIdx = response._id
+ 
        response.comment.map(el => {
            $('.comments').append(`
-           <div class="comment-input">
-                    <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
-                    <div>
+           <div class="comment-input admin">
+                    <div class="comment-info">
+                        <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
+                        <div>
                         <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
 
                         <div style="fontsize:1.5rem">${el.comment}</div>
-                        </div>
+                        </div>                        </div>
+                    <input style="width:60px;" type="submit" value="Delete" onclick="deleteComment('${el._id}','${pIdx}')"/>
+
                 </div>`)
        })
     });
    }
-   function like (id) {
-    if( $(`#${id}`).css("color") == "rgb(255, 94, 0)") {
-        $(`#${id}`).css("color", "white");
+   function deleteComment (cId, pId) {
+    $.post( "http://localhost:8080/admin/deleteCommet", {pId, cId}, function (data) {
+        $('.comments').empty()
+        $.ajax({
+        url: "http://localhost:8080/userGetAllComment/"+ postId,
+        dataType: 'json',
+        type: 'GET',
+    }).done(function (response) {
+       console.log(response);
+       response.comment.map(el => {
+        var pIdx = response._id
+           $('.comments').append(`
+           <div class="comment-input admin">
+                    <div class="comment-info">
+                        <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
+                        <div>
+                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
 
-    } else {
-        $(`#${id}`).css("color", "rgb(255, 94, 0)");
+                        <div style="fontsize:1.5rem">${el.comment}</div>
+                        </div>                        </div>
+                    <input style="width:60px;" type="submit" value="Delete" onclick="deleteComment('${el._id}','${pIdx}')"/>
 
-    }
+                </div>`)
+       })
+    });
+       
+    })
+
    }
 </script>
 

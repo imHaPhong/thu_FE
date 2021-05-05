@@ -54,18 +54,12 @@
         </div>
         <div class="modal-comment-list">
             <div class="comments">
-                <div class="comment-input">
-                    <img width="50px" height="50px" style="border-radius: 50%;" src='http://localhost:8080/img/1619337396365-f.png' alt="">
-                    <span>Asldasjkd</span>
-                </div>
-                <div class="comment-input">
-                    <img width="50px" height="50px" style="border-radius: 50%;" src='http://localhost:8080/img/1619337396365-f.png' alt="">
-                    <span>Asldasjkd</span>
-                </div>
+              
             </div>
             <div class="comment-input">
-                <img width="50px" height="50px" style="border-radius: 50%;" src='http://localhost:8080/img/1619337396365-f.png' alt="">
-                <input type="text">
+                <img width="50px" height="50px" style="border-radius: 50%;"  id="userCommentAvt" src='http://localhost:8080/img/1619337396365-f.png' alt="">
+                <input type="text" class="commentValue">
+                <input style="width:50px;" type="submit" value="Add" class="userComment"/>
             </div>
         </div>
     </div>
@@ -77,11 +71,10 @@
    </div>
    <div class="footer">
        <div class="nav-list">
-           <div class="nav-item"><a href="/">News </a></div>
-           <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
-           <div class="nav-item"><a href="/score.html">Score </a></div>
-           <div class="nav-item"><a href="/UCL.html">UCL </a></div>
-   
+        <div class="nav-item"><a href="/">News </a></div>
+        <div class="nav-item"><a href="/tranfer.html">Tranfer </a></div>
+        <div class="nav-item"><a href="/score.html">Score </a></div>
+        <div class="nav-item"><a href="/UCL.html">UCL </a></div>
        </div>
    </div>
  </div>
@@ -91,7 +84,35 @@
 <script src="./js/isActive.js"></script>
 
 <script>
-         
+    $('#userCommentAvt').attr('src', localStorage.getItem('avatar'))
+    var postId;
+         $('.userComment').click(function(){
+            $.post( "http://localhost:8080/userAddcomment", { pid: postId, uId: localStorage.getItem('uId'), comment: $('.commentValue').val()}, (data) => {
+                $('.comments').empty()
+                $('.commentValue').val("")
+                $.ajax({
+        url: "http://localhost:8080/userGetAllComment/"+ postId,
+        dataType: 'json',
+        type: 'GET',
+    }).done(function (response) {
+       console.log(response);
+       response.comment.map(el => {
+           $('.comments').append(`
+           <div class="comment-input">
+                    <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
+                    <div>
+                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
+
+                        <div style="fontsize:1.5rem">${el.comment}</div>
+                        </div>
+                </div>`)
+       })
+    });
+            } );
+
+
+         })
+
         function closeCmt(){
             $('.modal2-container').toggle()
 
@@ -108,13 +129,43 @@
             </iframe>
             <div class="postDes">${el.title}</div>
             <div class="post-bottom">
-                <i class="fas fa-thumbs-up"></i>
+                <i class="fas fa-thumbs-up" id='${el._id}' onclick=like('${el._id}')></i>
                 <i class="fas fa-comments" onclick="openCmt('${el._id}')"></i>                </div>
             `)
         })
     });
+
+
    function openCmt(id){
+    postId = id
        $('.modal2-container').toggle()
+       $.ajax({
+        url: "http://localhost:8080/userGetAllComment/"+ id,
+        dataType: 'json',
+        type: 'GET',
+    }).done(function (response) {
+       console.log(response);
+       response.comment.map(el => {
+           $('.comments').append(`
+           <div class="comment-input">
+                    <img width="50px" height="50px" style="border-radius: 50%;" src='${el.uId.avatar}' alt="">
+                    <div>
+                        <h3 style="color: #ff5200e3">${el.uId.userName}</h3>
+
+                        <div style="fontsize:1.5rem">${el.comment}</div>
+                        </div>
+                </div>`)
+       })
+    });
+   }
+   function like (id) {
+    if( $(`#${id}`).css("color") == "rgb(255, 94, 0)") {
+        $(`#${id}`).css("color", "white");
+
+    } else {
+        $(`#${id}`).css("color", "rgb(255, 94, 0)");
+
+    }
    }
 </script>
 

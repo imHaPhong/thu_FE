@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="../css/index.css">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -57,13 +57,13 @@
        </div>
         <div class="post">
             <div class="show-add-post">
-                    Add news
+                    Add tranfer
             </div>
           <div class="add-post-container">
             <div class="add-post">
                 <div>
-                   <input type="text" placeholder="Title" id="title">
-                   <input type="text" placeholder="Like" id="link">
+                   <input type="text" placeholder="Link video" id="title">
+                   <input type="text" placeholder="Title" id="link">
                 </div>
                 <i class="fas fa-check" onclick="addNews()"></i>
               </div>
@@ -73,11 +73,10 @@
    </div>
    <div class="footer">
        <div class="nav-list">
-        <div class="nav-item"><a href="/admin.html">News </a></div>
-        <div class="nav-item"><a href="/tranfers.html">Tranfer </a></div>
-           <div class="nav-item"><a href="/score.html">Score </a></div>
-           <div class="nav-item"><a href="/AdminDeletePost.html">UCL </a></div>
-   
+        <div class="nav-item"><a href="/admin/news.html">News </a></div>
+        <div class="nav-item"><a href="/admin/tranfers.html">Tranfer </a></div>
+           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> News comments </a></div>
+           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> Tranfer comments </a></div>
        </div>
    </div>
  </div>
@@ -100,7 +99,7 @@
                 typeNews: 0
             },
             function(data){
-                window.location.href = "/admin.html"
+                window.location.href = "/tranfers.html"
             });
     }
         $(".show-add-post").click(() => {
@@ -113,7 +112,7 @@
             }
         })
        $.ajax({
-        url: "http://localhost:8080/ucl",
+        url: "http://localhost:8080/tranfer",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {
