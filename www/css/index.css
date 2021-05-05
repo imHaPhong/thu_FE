@@ -396,6 +396,22 @@ border: none;
     height:100%;
 }
 
+.comments {
+    height:85vh;
+    overflow: scroll;
+}
+
+.comment-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-info{
+    display: flex;
+    align-items: center;
+}
+
 .comments .comment-input{
     border-bottom: 1px solid white;
 }
@@ -452,4 +468,7 @@ border: none;
     margin: 0 auto;
     margin-bottom: 20px;
 
+}
+.likeActive{
+    color: tomato;
 }

@@ -56,7 +56,6 @@
     $('.login').click(() => {
         if($(".userInput").val() == "admin" && $(".passwordInput").val() == "Amin99"){
             localStorage.setItem("IsLogin", "true")
-            localStorage.setItem("avatar", data.avatar)
 
             window.location.href = "/admin.html"
             return
