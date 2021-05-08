@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="../css/index.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -48,28 +48,48 @@
                     </div>
                 </div>
             </div>
-            <div class="search-box">
-                <input type="text" id="userSearchInput">
-                <i class="fas fa-search" id="userSearch"></i>
-            </div>
             <div class="select-list">
-                <!--        
-       <div class="select-item active" id="607eeb914a19ed101421ec17">ENG</div>
-       <div class="select-item">ENG</div>
-       <div class="select-item">ENG</div>
-       <div class="select-item">ENG</div> -->
+
             </div>
         </div>
-        <div class="content">
+        <div class="content adminc">
+            <div class="score-container">
+                <div class="score-leftc">
+                    <div class="score-teamc ">
+                        <div class="score-team-detail">
+                            <!-- <img src="${el.guest.avatar}" alt="">
+                            <span>${el.guest.clubName}</span> -->
+                            <span>Home</span> <input type="text" class="edit-input" id="inputHome">
+                        </div>
+                        <span class="score-team-goal">
+                            <span> Score</span> <input type="number" class="edit-input" id="inputHomeScore">
+                        </span>
+                    </div>
+                    <div class="score-teamc">
+                        <div class="score-team-detail">
+                            <span> Guest</span> <input type="text" class="edit-input" id="inputGest">
+                        </div>
+                        <span class="score-team-goal">
+                            <span> Score</span> <input type="number" class="edit-input" id="inputGestScore">
+                        </span>
+                    </div>
+                </div>
+                <div class="score-rightc">
+                    <input type="date" id="inputDate">
 
+                </div>
+            </div>
+            <div class="btnAdd">
+                Add
+            </div>
         </div>
         <div class="footer">
             <div class="nav-list">
-                <div class="nav-item"><a href="/">News </a></div>
-                <div class="nav-item "><a href="/tranfer.html">Tranfer </a></div>
-                <div class="nav-item btnActive"><a href="/score.html">Score </a></div>
-                <div class="nav-item"><a href="/UCL1.html">UCL </a></div>
-
+                <div class="nav-item"><a href="/admin/news.html">News </a></div>
+                <div class="nav-item"><a href="/admin/tranfers.html">Tranfer </a></div>
+                <div class="nav-item"><a href="/admin/AdminDeletePost.html"> News comments </a></div>
+                <div class="nav-item"><a href="/admin/AddLeague.html">Add score</a></div>
+                <div class="nav-item"><a href="/admin/AddUCL.html"> Add UCL </a></div>
             </div>
         </div>
     </div>
@@ -79,40 +99,29 @@
 <script src="./js/isActive.js"></script>
 
 <script>
-    $('#userSearch').click(() => {
-        $.get("http://localhost:8080/searchScore/" + $('#userSearchInput').val(), (data) => {
-            $('.content').empty()
-            data.map(el => {
-                $(".content").append(` <div class="score-container">
-           <div class="score-left">
-                <div class="score-team">
-                    <div class="score-team-detail">
-                        <img src="${el.guest.avatar}" alt="">
-                    <span>${el.guest.clubName}</span>
-                    </div>
-                    <span class="score-team-goal">
-                        ${el.score[0]}
-                    </span>
-                </div>
-                <div class="score-team">
-                    <div class="score-team-detail">
-                        <img src="${el.home.avatar}" alt="">
-                    <span>${el.home.clubName}</span>
-                    </div>
-                    <span class="score-team-goal">
-                        ${el.score[1]}
-                    </span>
-                </div>
-           </div>
-           <div class="score-right">
-            ${(new Date(el.date)).toLocaleDateString()}
-           </div>
-       </div>`)
-            })
+    $('.btnAdd').click(() => {
+        if ($('#inputHome').val() == "" || $('#inputGest').val() == "", $('#inputHomeScore').val() == "" || $(
+                '#inputGestScore').val() == "" || $('#inputDate').val() == "") {
+            alert("Need enter value")
+            return
+        }
+        $.post("http://localhost:8080/admin/addULC", {
+            "home": $('#inputHome').val(),
+            "guest": $('#inputGest').val(),
+            "score": [$('#inputHomeScore').val(), $('#inputGestScore').val()],
+            "date": $('#inputDate').val()
+        }, (data) => {
+            if (data.errors) {
+                alert("Id not valid")
+                return
+            }
+            alert("Add success")
+
         });
     })
+
     $.ajax({
-        url: "http://localhost:8080/score",
+        url: "http://localhost:8080/getULC",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {

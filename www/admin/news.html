@@ -6,118 +6,118 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="../css/index.css">
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
 <style>
-   
+
 </style>
 
 <body>
- <div class="container">
-  <div>
-    <div style="background-color: black;">
-        <div class="m-header">
-          <h3> Admin page</h3>
-       </div>
-       <div class="select-list">
-           
-           
-       </div>
-      </div>
-   <div class="select-list">
-<!--        
+    <div class="container">
+        <div>
+            <div style="background-color: black;">
+                <div class="m-header">
+                    <h3> Admin page</h3>
+                </div>
+                <div class="select-list">
+
+
+                </div>
+            </div>
+            <div class="select-list">
+                <!--        
        <div class="select-item active" id="607eeb914a19ed101421ec17">ENG</div>
        <div class="select-item">ENG</div>
        <div class="select-item">ENG</div>
        <div class="select-item">ENG</div> -->
-   </div>
-  </div>
-   <div class="content">
-       <div class="modal-container">
-        <div class="modal">
-            <div class="modal-content">
-                <h2>Edit info</h2>
-              <input type="text" class="editTitle">
-              <input type="text" class="editLink">
-              <div class="saveBtn">
-                  <span  onclick="back()">
-                      Back
-                  </span>
-                  <span  onclick="saveEdit()">
-                      Save
-                  </span>
-              </div>
             </div>
-         </div>
-       </div>
-        <div class="post">
-            <div class="show-add-post">
-                    Add news
-            </div>
-          <div class="add-post-container">
-            <div class="add-post">
-                <div>
-                   <input type="text" placeholder="Title" id="title">
-                   <input type="text" placeholder="Link" id="link">
-                </div>
-                <i class="fas fa-check" onclick="addNews()"></i>
-              </div>
-          </div>
         </div>
-     
-   </div>
-   <div class="footer">
-       <div class="nav-list">
-        <div class="nav-item"><a href="/admin/news.html">News </a></div>
-        <div class="nav-item"><a href="/admin/tranfers.html">Tranfer </a></div>
-           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> News comments </a></div>
-           <div class="nav-item"><a href="/admin/AdminDeletePost.html"> Tranfer comments </a></div>
-   
-       </div>
-   </div>
- </div>
+        <div class="content">
+            <div class="modal-container">
+                <div class="modal">
+                    <div class="modal-content">
+                        <h2>Edit info</h2>
+                        <input type="text" class="editTitle">
+                        <input type="text" class="editLink">
+                        <div class="saveBtn">
+                            <span onclick="back()">
+                                Back
+                            </span>
+                            <span onclick="saveEdit()">
+                                Save
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="post">
+                <div class="show-add-post">
+                    Add news
+                </div>
+                <div class="add-post-container">
+                    <div class="add-post">
+                        <div>
+                            <input type="text" placeholder="Title" id="title">
+                            <input type="text" placeholder="Link" id="link">
+                        </div>
+                        <i class="fas fa-check" onclick="addNews()"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="nav-list">
+                <div class="nav-item"><a href="/admin/news.html">News </a></div>
+                <div class="nav-item"><a href="/admin/tranfers.html">Tranfer </a></div>
+                <div class="nav-item"><a href="/admin/AdminDeletePost.html"> News comments </a></div>
+                <div class="nav-item"><a href="/admin/AddLeague.html">Add score</a></div>
+                <div class="nav-item"><a href="/admin/AddUCL.html"> Add UCL </a></div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./js/getHeaderInfo.js"></script>
 <script src="./js/isActive.js"></script>
 
 <script>
-
     function back() {
         $(".modal-container").toggle()
 
     }
-        function addNews() {
-            $.post("http://localhost:8080/admin/addNews",
-            {
+
+    function addNews() {
+        $.post("http://localhost:8080/admin/addNews", {
                 title: $("#title").val(),
                 link: $("#link").val(),
                 typeNews: 1
             },
-            function(data){
+            function (data) {
                 window.location.href = "/admin/news.html"
             });
     }
-        $(".show-add-post").click(() => {
-            $(".add-post-container").toggle()
-            if($(".show-add-post").text() == "Close") {
-                $(".show-add-post").text("Add new")
-            }else{
-                $(".show-add-post").text("Close")
+    $(".show-add-post").click(() => {
+        $(".add-post-container").toggle()
+        if ($(".show-add-post").text() == "Close") {
+            $(".show-add-post").text("Add new")
+        } else {
+            $(".show-add-post").text("Close")
 
-            }
-        })
-       $.ajax({
+        }
+    })
+    $.ajax({
         url: "http://localhost:8080/ucl",
         dataType: 'json',
         type: 'GET',
     }).done(function (response) {
-       
+
         response.map(el => {
             $(".post").append(`<iframe height="200" frameborder="0" allowfullscreen
             src="${el.link}">
@@ -129,41 +129,40 @@
             `)
         })
     });
-   function deletePost(id) {
-    $.post("http://localhost:8080/deletePost",
-            {
+
+    function deletePost(id) {
+        $.post("http://localhost:8080/deletePost", {
                 id
             },
-            function(data){
+            function (data) {
                 window.location.href = "/admin/news.html"
             });
-   }
-   var temp_id ;
-   function editPost(id, title, link){
-    temp_id = id;
-    $(".modal-container").toggle()
-       $('.editTitle').val(title)
-       $('.editLink').val(link)
-   }
+    }
+    var temp_id;
 
-   function saveEdit(){
+    function editPost(id, title, link) {
+        temp_id = id;
+        $(".modal-container").toggle()
+        $('.editTitle').val(title)
+        $('.editLink').val(link)
+    }
 
-       if($('.editTitle').val().length == 0 || $('.editLink').val().length == 0){
-           alert("Title and link is required")
-           return
-       }
-       $.post("http://localhost:8080/admin/editNews",
-            {
+    function saveEdit() {
+
+        if ($('.editTitle').val().length == 0 || $('.editLink').val().length == 0) {
+            alert("Title and link is required")
+            return
+        }
+        $.post("http://localhost:8080/admin/editNews", {
                 id: temp_id,
                 title: $('.editTitle').val(),
                 link: $('.editLink').val()
             },
-            function(data){
+            function (data) {
                 window.location.href = "/admin/news.html"
             });
 
-   }
- 
+    }
 </script>
 
 </html>
